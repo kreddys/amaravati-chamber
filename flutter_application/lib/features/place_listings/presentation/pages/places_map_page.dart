@@ -7,7 +7,6 @@ import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
 import '../../../../core/logging/app_logger.dart';
 import '../../../../core/monitoring/sentry_monitoring.dart';
-import 'package:sentry_flutter/sentry_flutter.dart';
 
 class PlacesMapPage extends StatefulWidget {
   const PlacesMapPage({Key? key}) : super(key: key);
@@ -17,15 +16,23 @@ class PlacesMapPage extends StatefulWidget {
 }
 
 class _PlacesMapPageState extends State<PlacesMapPage> {
-  late final Future<PmTilesVectorTileProvider> _futureTileProvider;
+  late final Future<PmTilesVectorTileProvider> _baseTileProvider;
+  late final Future<PmTilesVectorTileProvider> _overturePlacesTileProvider;
   List<LatLng> boundaryPoints = [];
 
   @override
   void initState() {
     super.initState();
-    _futureTileProvider = PmTilesVectorTileProvider.fromSource(
-      'https://kmisqlvoiofymxicxiwv.supabase.co/storage/v1/object/public/maps/amaravati2.pmtiles',
+    // Initialize base map PMTiles provider
+    _baseTileProvider = PmTilesVectorTileProvider.fromSource(
+      'https://kmisqlvoiofymxicxiwv.supabase.co/storage/v1/object/public/maps/amaravati_base.pmtiles',
     );
+
+    // Initialize Overture places PMTiles provider
+    _overturePlacesTileProvider = PmTilesVectorTileProvider.fromSource(
+      'https://kmisqlvoiofymxicxiwv.supabase.co/storage/v1/object/public/maps/amaravati_places_2024-11-13.pmtiles',
+    );
+
     _loadGeoJson();
   }
 
@@ -43,7 +50,6 @@ class _PlacesMapPageState extends State<PlacesMapPage> {
       AppLogger.debug('GeoJSON type: ${geoJson['type']}');
       AppLogger.debug('Geometry type: ${geoJson['geometry']?['type']}');
 
-      // Extract coordinates from GeoJSON
       if (geoJson['type'] == 'Feature' &&
           geoJson['geometry']['type'] == 'Polygon') {
         final coordinates = geoJson['geometry']['coordinates'][0] as List;
@@ -67,6 +73,7 @@ class _PlacesMapPageState extends State<PlacesMapPage> {
       }
     } catch (e, stackTrace) {
       AppLogger.error('Error loading GeoJSON: $e');
+      await SentryMonitoring.captureException(e, stackTrace);
     }
   }
 
@@ -77,39 +84,47 @@ class _PlacesMapPageState extends State<PlacesMapPage> {
         title: const Text('Map'),
         centerTitle: true,
       ),
-      body: FutureBuilder<PmTilesVectorTileProvider>(
-        future: _futureTileProvider,
+      body: FutureBuilder<List<PmTilesVectorTileProvider>>(
+        future: Future.wait([_baseTileProvider, _overturePlacesTileProvider]),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
-            AppLogger.error('Error loading tile provider: ${snapshot.error}');
-            return Center(child: Text('Error loading map'));
+            AppLogger.error('Error loading tile providers: ${snapshot.error}');
+            return const Center(child: Text('Error loading map'));
           }
 
           if (snapshot.hasData) {
+            final providers = snapshot.data!;
             return FlutterMap(
-              options: MapOptions(
+              options: const MapOptions(
                 initialCenter: const LatLng(16.393872, 80.512708),
                 initialZoom: 10.0,
-                debugMultiFingerGestureWinner:
-                    true, // Helps with debugging gestures
               ),
               children: [
+                // Base map layer
                 VectorTileLayer(
                   tileProviders: TileProviders({
-                    'protomaps': snapshot.data!,
+                    'protomaps': providers[0],
                   }),
                   theme: ProtomapsThemes.light(),
                 ),
-                if (boundaryPoints.isNotEmpty) // Only show if we have points
+
+                // Overture places layer
+                VectorTileLayer(
+                  tileProviders: TileProviders({
+                    'place': providers[1],
+                  }),
+                  theme: ProtomapsThemes.light(),
+                ),
+
+                if (boundaryPoints.isNotEmpty)
                   PolygonLayer(
                     polygons: [
                       Polygon(
                         points: boundaryPoints,
                         color: Colors.blue.withOpacity(0.2),
                         borderColor: Colors.blue,
-                        borderStrokeWidth: 3, // Made thicker for visibility
-                        isDotted:
-                            true, // Makes the border dotted for better visibility
+                        borderStrokeWidth: 3,
+                        isDotted: true,
                       ),
                     ],
                   ),
