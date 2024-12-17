@@ -17,8 +17,8 @@ class PlacesMapPage extends StatefulWidget {
 
 class _PlacesMapPageState extends State<PlacesMapPage> {
   late final Future<PmTilesVectorTileProvider> _baseTileProvider;
-  late final Future<PmTilesVectorTileProvider> _overturePlacesTileProvider;
   List<LatLng> boundaryPoints = [];
+  final _mapController = MapController();
 
   @override
   void initState() {
@@ -26,11 +26,6 @@ class _PlacesMapPageState extends State<PlacesMapPage> {
     // Initialize base map PMTiles provider
     _baseTileProvider = PmTilesVectorTileProvider.fromSource(
       'https://kmisqlvoiofymxicxiwv.supabase.co/storage/v1/object/public/maps/amaravati_base.pmtiles',
-    );
-
-    // Initialize Overture places PMTiles provider
-    _overturePlacesTileProvider = PmTilesVectorTileProvider.fromSource(
-      'https://kmisqlvoiofymxicxiwv.supabase.co/storage/v1/object/public/maps/amaravati_places_2024-11-13.pmtiles',
     );
 
     _loadGeoJson();
@@ -85,7 +80,7 @@ class _PlacesMapPageState extends State<PlacesMapPage> {
         centerTitle: true,
       ),
       body: FutureBuilder<List<PmTilesVectorTileProvider>>(
-        future: Future.wait([_baseTileProvider, _overturePlacesTileProvider]),
+        future: Future.wait([_baseTileProvider]),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             AppLogger.error('Error loading tile providers: ${snapshot.error}');
@@ -95,8 +90,9 @@ class _PlacesMapPageState extends State<PlacesMapPage> {
           if (snapshot.hasData) {
             final providers = snapshot.data!;
             return FlutterMap(
+              mapController: _mapController,
               options: const MapOptions(
-                initialCenter: const LatLng(16.393872, 80.512708),
+                initialCenter: LatLng(16.393872, 80.512708),
                 initialZoom: 10.0,
               ),
               children: [
@@ -104,14 +100,6 @@ class _PlacesMapPageState extends State<PlacesMapPage> {
                 VectorTileLayer(
                   tileProviders: TileProviders({
                     'protomaps': providers[0],
-                  }),
-                  theme: ProtomapsThemes.light(),
-                ),
-
-                // Overture places layer
-                VectorTileLayer(
-                  tileProviders: TileProviders({
-                    'place': providers[1],
                   }),
                   theme: ProtomapsThemes.light(),
                 ),
@@ -128,6 +116,37 @@ class _PlacesMapPageState extends State<PlacesMapPage> {
                       ),
                     ],
                   ),
+
+                // Add zoom controls
+                Positioned(
+                  right: 16,
+                  bottom: 16,
+                  child: Column(
+                    children: [
+                      FloatingActionButton.small(
+                        heroTag: "zoomIn",
+                        onPressed: () {
+                          _mapController.move(
+                            _mapController.camera.center,
+                            _mapController.camera.zoom + 1,
+                          );
+                        },
+                        child: const Icon(Icons.add),
+                      ),
+                      const SizedBox(height: 8),
+                      FloatingActionButton.small(
+                        heroTag: "zoomOut",
+                        onPressed: () {
+                          _mapController.move(
+                            _mapController.camera.center,
+                            _mapController.camera.zoom - 1,
+                          );
+                        },
+                        child: const Icon(Icons.remove),
+                      ),
+                    ],
+                  ),
+                ),
               ],
             );
           }
