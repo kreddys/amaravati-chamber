@@ -1,5 +1,3 @@
-// lib/features/place_listings/presentation/widgets/map_layers/place_markers_layer.dart
-
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,7 +10,18 @@ class PlaceMarkersLayer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<PlaceListingsCubit, PlaceListingsState>(
+    // Get the cubit instance directly from the context
+    final placeListingsCubit = context.read<PlaceListingsCubit>();
+
+    return BlocConsumer<PlaceListingsCubit, PlaceListingsState>(
+      listener: (context, state) {
+        // Handle any state changes that require UI feedback
+        if (state.status == PlaceListingStatus.failure) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(state.errorMessage ?? 'An error occurred')),
+          );
+        }
+      },
       builder: (context, state) {
         if (state.status == PlaceListingStatus.loading) {
           return const SizedBox.shrink();
