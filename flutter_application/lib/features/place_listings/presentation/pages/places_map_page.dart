@@ -9,14 +9,14 @@ import '../widgets/map_layers/place_markers_layer.dart';
 import '../cubit/place_listings_cubit.dart';
 import '../../../../dependency_injection.dart';
 
-// Separate widget class for the page
 class PlacesMapPage extends StatelessWidget {
   const PlacesMapPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider.value(
-      value: context.read<PlaceListingsCubit>(),
+    // Create a new instance of PlaceListingsCubit
+    return BlocProvider(
+      create: (context) => getIt<PlaceListingsCubit>()..loadPlaceListings(),
       child: const PlacesMapView(),
     );
   }
