@@ -13,12 +13,19 @@ class PlacesMapPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Get the existing cubit from the parent context before navigation
-    final cubit = context.read<PlaceListingsCubit>();
-
-    return BlocProvider.value(
-      value: cubit, // Use the existing cubit instance
-      child: const PlacesMapView(),
+    // We need to wrap the map view with BlocProvider.value to pass the existing cubit
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider.value(
+          value: BlocProvider.of<PlaceListingsCubit>(context),
+        ),
+      ],
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Map'),
+        ),
+        body: const PlacesMapView(),
+      ),
     );
   }
 }
