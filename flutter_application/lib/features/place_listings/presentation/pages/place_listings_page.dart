@@ -126,11 +126,11 @@ class _PlaceListingsViewState extends State<PlaceListingsView> {
           IconButton(
             icon: const Icon(Icons.map),
             onPressed: () {
+              // The cubit will be available in the context here
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) =>
-                      const PlacesMapPage(), // Navigate to placeholder map page
+                  builder: (context) => const PlacesMapPage(),
                 ),
               );
             },

@@ -7,16 +7,17 @@ import '../widgets/map_layers/boundary_layer.dart';
 import '../widgets/map_layers/map_zoom_controls.dart';
 import '../widgets/map_layers/place_markers_layer.dart';
 import '../cubit/place_listings_cubit.dart';
-import '../../../../dependency_injection.dart';
 
 class PlacesMapPage extends StatelessWidget {
   const PlacesMapPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    // Create a new instance of PlaceListingsCubit
-    return BlocProvider(
-      create: (context) => getIt<PlaceListingsCubit>()..loadPlaceListings(),
+    // Get the existing cubit from the parent context before navigation
+    final cubit = context.read<PlaceListingsCubit>();
+
+    return BlocProvider.value(
+      value: cubit, // Use the existing cubit instance
       child: const PlacesMapView(),
     );
   }
