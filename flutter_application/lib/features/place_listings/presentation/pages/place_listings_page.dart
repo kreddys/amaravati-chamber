@@ -128,7 +128,10 @@ class _PlaceListingsViewState extends State<PlaceListingsView> {
             onPressed: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (_) => const PlacesMapPage(),
+                  builder: (context) => BlocProvider.value(
+                    value: context.read<PlaceListingsCubit>(),
+                    child: const PlacesMapPage(),
+                  ),
                 ),
               );
             },

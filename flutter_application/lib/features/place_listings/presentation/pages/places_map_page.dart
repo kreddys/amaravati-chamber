@@ -13,24 +13,15 @@ class PlacesMapPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // We need to wrap the map view with BlocProvider.value to pass the existing cubit
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider.value(
-          value: BlocProvider.of<PlaceListingsCubit>(context),
-        ),
-      ],
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Map'),
-        ),
-        body: const PlacesMapView(),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Map'),
       ),
+      body: const PlacesMapView(),
     );
   }
 }
 
-// Separate view class for the content
 class PlacesMapView extends StatefulWidget {
   const PlacesMapView({Key? key}) : super(key: key);
 
@@ -43,28 +34,22 @@ class _PlacesMapViewState extends State<PlacesMapView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Map'),
-        centerTitle: true,
-      ),
-      body: Stack(
-        children: [
-          FlutterMap(
-            mapController: _mapController,
-            options: const MapOptions(
-              initialCenter: LatLng(16.393872, 80.512708),
-              initialZoom: 10.0,
-            ),
-            children: const [
-              BaseMapLayer(),
-              BoundaryLayer(),
-              PlaceMarkersLayer(),
-            ],
+    return Stack(
+      children: [
+        FlutterMap(
+          mapController: _mapController,
+          options: const MapOptions(
+            initialCenter: LatLng(16.393872, 80.512708),
+            initialZoom: 10.0,
           ),
-          MapZoomControls(mapController: _mapController),
-        ],
-      ),
+          children: const [
+            BaseMapLayer(),
+            BoundaryLayer(),
+            PlaceMarkersLayer(),
+          ],
+        ),
+        MapZoomControls(mapController: _mapController),
+      ],
     );
   }
 }
