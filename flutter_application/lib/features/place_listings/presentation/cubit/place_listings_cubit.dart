@@ -8,8 +8,7 @@ import '../../../place_listings/presentation/cubit/place_listings_state.dart';
 import '../../../../core/voting/domain/repositories/i_voting_repository.dart';
 
 @injectable
-class PlaceListingsCubit extends Cubit<PlaceListingsState>
-    implements StateStreamable<PlaceListingsState> {
+class PlaceListingsCubit extends Cubit<PlaceListingsState> {
   final SupabaseClient _supabaseClient;
   final IVotingRepository _votingRepository;
   static const int _pageSize = 10; // Number of records per page
