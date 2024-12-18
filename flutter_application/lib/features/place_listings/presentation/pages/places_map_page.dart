@@ -22,16 +22,23 @@ class _PlacesMapPageState extends State<PlacesMapPage> {
         title: const Text('Map'),
         centerTitle: true,
       ),
-      body: FlutterMap(
-        mapController: _mapController,
-        options: const MapOptions(
-          initialCenter: LatLng(16.393872, 80.512708),
-          initialZoom: 10.0,
-        ),
+      body: Stack(
+        // Wrap with Stack
         children: [
-          const BaseMapLayer(),
-          const BoundaryLayer(),
-          MapZoomControls(mapController: _mapController),
+          FlutterMap(
+            mapController: _mapController,
+            options: const MapOptions(
+              initialCenter: LatLng(16.393872, 80.512708),
+              initialZoom: 10.0,
+            ),
+            children: const [
+              BaseMapLayer(),
+              BoundaryLayer(),
+            ],
+          ),
+          MapZoomControls(
+              mapController:
+                  _mapController), // Move outside FlutterMap but inside Stack
         ],
       ),
     );

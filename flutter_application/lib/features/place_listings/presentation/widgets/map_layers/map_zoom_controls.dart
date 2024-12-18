@@ -12,6 +12,7 @@ class MapZoomControls extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Positioned(
+      // Keep Positioned here since it will be child of Stack
       right: 16,
       bottom: 16,
       child: Column(
