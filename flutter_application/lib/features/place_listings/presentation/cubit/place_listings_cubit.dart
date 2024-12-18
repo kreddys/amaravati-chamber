@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:bloc/bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../../core/logging/app_logger.dart';
@@ -7,7 +8,8 @@ import '../../../place_listings/presentation/cubit/place_listings_state.dart';
 import '../../../../core/voting/domain/repositories/i_voting_repository.dart';
 
 @injectable
-class PlaceListingsCubit extends Cubit<PlaceListingsState> {
+class PlaceListingsCubit extends Cubit<PlaceListingsState>
+    implements StateStreamable<PlaceListingsState> {
   final SupabaseClient _supabaseClient;
   final IVotingRepository _votingRepository;
   static const int _pageSize = 10; // Number of records per page
