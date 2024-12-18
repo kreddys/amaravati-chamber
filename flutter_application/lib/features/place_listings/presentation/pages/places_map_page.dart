@@ -1,12 +1,11 @@
+import 'package:amaravati_chamber/features/place_listings/presentation/widgets/map_layers/place_markers_layer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import './../widgets/map_layers/base_map_layer.dart';
 import '../widgets/map_layers/boundary_layer.dart';
 import '../widgets/map_layers/map_zoom_controls.dart';
-import '../widgets/map_layers/place_markers_layer.dart';
-import '../cubit/place_listings_cubit.dart';
+import '../widgets/map_layers/heat_map_layer.dart';
 
 class PlacesMapPage extends StatelessWidget {
   const PlacesMapPage({Key? key}) : super(key: key);

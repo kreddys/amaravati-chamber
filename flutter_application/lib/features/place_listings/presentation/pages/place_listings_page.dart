@@ -123,15 +123,14 @@ class _PlaceListingsViewState extends State<PlaceListingsView> {
               : _toggleSearch,
         ),
         if (!_isSearching)
+          // Replace the map navigation code with this
           IconButton(
             icon: const Icon(Icons.map),
             onPressed: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => BlocProvider<PlaceListingsCubit>.value(
-                    value: context.read<PlaceListingsCubit>(),
-                    child: const PlacesMapPage(),
-                  ),
+                  builder: (context) =>
+                      const PlacesMapPage(), // No longer needs BlocProvider
                 ),
               );
             },
