@@ -10,18 +10,7 @@ class PlaceMarkersLayer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Get the cubit instance directly from the context
-    final placeListingsCubit = context.read<PlaceListingsCubit>();
-
-    return BlocConsumer<PlaceListingsCubit, PlaceListingsState>(
-      listener: (context, state) {
-        // Handle any state changes that require UI feedback
-        if (state.status == PlaceListingStatus.failure) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(state.errorMessage ?? 'An error occurred')),
-          );
-        }
-      },
+    return BlocBuilder<PlaceListingsCubit, PlaceListingsState>(
       builder: (context, state) {
         if (state.status == PlaceListingStatus.loading) {
           return const SizedBox.shrink();
