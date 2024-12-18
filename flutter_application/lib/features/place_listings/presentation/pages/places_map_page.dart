@@ -4,6 +4,7 @@ import 'package:latlong2/latlong.dart';
 import './../widgets/map_layers/base_map_layer.dart';
 import '../widgets/map_layers/boundary_layer.dart';
 import '../widgets/map_layers/map_zoom_controls.dart';
+import '../widgets/map_layers/place_markers_layer.dart';
 
 class PlacesMapPage extends StatefulWidget {
   const PlacesMapPage({Key? key}) : super(key: key);
@@ -34,6 +35,7 @@ class _PlacesMapPageState extends State<PlacesMapPage> {
             children: const [
               BaseMapLayer(),
               BoundaryLayer(),
+              PlaceMarkersLayer(),
             ],
           ),
           MapZoomControls(
