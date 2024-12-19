@@ -5,7 +5,7 @@ import 'package:amaravati_chamber/dependency_injection.dart';
 import 'package:amaravati_chamber/features/user/presentation/bloc/change_email_address/change_email_address_cubit.dart';
 import 'package:amaravati_chamber/features/user/presentation/widget/change_email_address_form.dart';
 import 'package:formz/formz.dart';
-
+import 'package:amaravati_chamber/core/widgets/app_bar.dart'; // Add this import
 import '../../../../core/constants/spacings.dart';
 
 class ChangeEmailAddressPage extends StatelessWidget {
@@ -18,10 +18,14 @@ class ChangeEmailAddressPage extends StatelessWidget {
     return BlocProvider(
       create: (context) => getIt<ChangeEmailAddressCubit>(),
       child: Scaffold(
+        appBar: AppBarWidget(
+          title: 'Change Email',
+        ),
         body: SafeArea(
           child: Padding(
             padding: const EdgeInsets.all(Spacing.s16),
-            child: BlocListener<ChangeEmailAddressCubit, ChangeEmailAddressState>(
+            child:
+                BlocListener<ChangeEmailAddressCubit, ChangeEmailAddressState>(
               listener: (context, state) {
                 switch (state.status) {
                   case FormzSubmissionStatus.failure:
@@ -31,8 +35,7 @@ class ChangeEmailAddressPage extends StatelessWidget {
                     return;
                   case FormzSubmissionStatus.success:
                     context.showSnackBarMessage(
-                      "Email with change email address details are sent."
-                    );
+                        "Email with change email address details are sent.");
                     return;
                   default:
                     return;
