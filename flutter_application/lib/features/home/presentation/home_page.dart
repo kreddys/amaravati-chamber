@@ -36,8 +36,7 @@ class HomePage extends StatelessWidget {
           final changed = current.selectedIndex != previous.selectedIndex;
           if (changed) {
             AppLogger.info(
-              'Navigation changed from ${previous.selectedIndex} to ${current.selectedIndex}'
-            );
+                'Navigation changed from ${previous.selectedIndex} to ${current.selectedIndex}');
             SentryMonitoring.addBreadcrumb(
               message: 'Tab navigation changed to ${current.selectedIndex}',
               category: 'navigation',
@@ -48,7 +47,7 @@ class HomePage extends StatelessWidget {
         builder: (context, state) {
           // Only show AppBar with settings when on the home tab (index 0)
           return Scaffold(
-            appBar: state.selectedIndex == 0 
+            appBar: state.selectedIndex == 0
                 ? AppBar(
                     title: Text(
                       'Amaravati Chamber',
@@ -77,7 +76,7 @@ class HomePage extends StatelessWidget {
               child: GestureDetector(
                 onHorizontalDragEnd: (DragEndDetails details) {
                   if (details.primaryVelocity == null) return;
-                  
+
                   final cubit = context.read<BottomNavigationBarCubit>();
                   final currentIndex = state.selectedIndex;
 
