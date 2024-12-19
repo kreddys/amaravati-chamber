@@ -5,6 +5,15 @@ enum EmailValidationError {
   invalid,
 }
 
+extension EmailValidationErrorX on EmailValidationError {
+  String get message {
+    switch (this) {
+      case EmailValidationError.invalid:
+        return 'Please enter a valid email address';
+    }
+  }
+}
+
 class EmailValueObject extends FormzInput<String, EmailValidationError> {
   const EmailValueObject.pure() : super.pure('');
 

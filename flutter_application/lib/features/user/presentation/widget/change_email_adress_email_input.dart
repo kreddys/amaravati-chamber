@@ -4,9 +4,7 @@ import 'package:amaravati_chamber/core/widgets/email_text_field.dart';
 import 'package:amaravati_chamber/features/user/presentation/bloc/change_email_address/change_email_address_cubit.dart';
 
 class ChangeEmailAddressEmailInput extends StatelessWidget {
-  const ChangeEmailAddressEmailInput({
-    super.key,
-  });
+  const ChangeEmailAddressEmailInput({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,9 +12,10 @@ class ChangeEmailAddressEmailInput extends StatelessWidget {
       buildWhen: (previous, current) => previous.email != current.email,
       builder: (context, state) {
         return EmailTextField(
-          onChanged: (email) => context.read<ChangeEmailAddressCubit>().emailChanged(email),
+          onChanged: (email) =>
+              context.read<ChangeEmailAddressCubit>().emailChanged(email),
+          errorText: state.email.displayError?.message,
           textInputAction: TextInputAction.done,
-          errorText: state.email.displayError != null ? "Invalid email address" : null,
         );
       },
     );
