@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/widgets/gesture_wrapper.dart'; // New shared component
+import '../bloc/bottom_navigation_bar/tab_item.dart';
 
 class HomeContent extends StatelessWidget {
   final int selectedIndex;

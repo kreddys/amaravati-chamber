@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../place_listings/presentation/cubit/place_listings_cubit.dart';
-import '../../../place_listings/presentation/cubit/place_listings_state.dart';
+import '../../../place_listings/presentation/bloc/place_listings_cubit.dart';
+import '../../../place_listings/presentation/bloc/place_listings_state.dart';
 import 'package:amaravati_chamber/core/constants/spacings.dart';
 import 'package:amaravati_chamber/core/widgets/tag_filter.dart';
 import '../../../place_listings/presentation/widgets/place_card.dart';

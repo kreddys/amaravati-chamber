@@ -4,7 +4,7 @@ import 'package:injectable/injectable.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../../core/logging/app_logger.dart';
 import '../../../../core/monitoring/sentry_monitoring.dart';
-import '../../../place_listings/presentation/cubit/place_listings_state.dart';
+import '../../../place_listings/presentation/bloc/place_listings_state.dart';
 import '../../../../core/voting/domain/repositories/i_voting_repository.dart';
 
 @injectable
