@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:amaravati_chamber/core/widgets/app_bar.dart';
 import 'package:amaravati_chamber/dependency_injection.dart';
 import '../widgets/home_content.dart';
-import './widgets/home_navigation_bar.dart';
+import 'widgets/home_navigation_bar.dart';
 import '../../news/presentation/bloc/news_cubit.dart';
 import '../bloc/bottom_navigation_bar/bottom_navigation_bar_cubit.dart';
 
