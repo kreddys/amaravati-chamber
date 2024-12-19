@@ -5,17 +5,26 @@ import 'package:amaravati_chamber/features/auth/presentation/bloc/login/login_cu
 import 'package:formz/formz.dart';
 import 'package:amaravati_chamber/core/extensions/build_context_extensions.dart';
 
+/// A button widget that handles login form submission
+///
+/// Uses [AppButton] component and integrates with [LoginCubit]
+/// for state management. Disables when form is invalid and shows
+/// loading state during submission.
 class LoginButton extends StatelessWidget {
   const LoginButton({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<LoginCubit, LoginState>(
-      builder: (context, state) {
+    return BlocSelector<LoginCubit, LoginState, _LoginButtonState>(
+      selector: (state) => _LoginButtonState(
+        isLoading: state.status == FormzSubmissionStatus.inProgress,
+        isValid: state.isValid,
+      ),
+      builder: (context, buttonState) {
         return AppButton(
           text: 'Continue',
-          isLoading: state.status == FormzSubmissionStatus.inProgress,
-          onPressed: state.isValid
+          isLoading: buttonState.isLoading,
+          onPressed: buttonState.isValid
               ? () {
                   context.closeKeyboard();
                   context.read<LoginCubit>().submitForm();
@@ -25,4 +34,14 @@ class LoginButton extends StatelessWidget {
       },
     );
   }
+}
+
+class _LoginButtonState {
+  final bool isLoading;
+  final bool isValid;
+
+  const _LoginButtonState({
+    required this.isLoading,
+    required this.isValid,
+  });
 }

@@ -10,20 +10,23 @@ class LoginForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.all(Spacing.s16),
-          child: AppCard(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                LoginHeader(),
-                SizedBox(height: Spacing.s32),
-                LoginEmailInput(),
-                SizedBox(height: Spacing.s16),
-                LoginButton(),
-              ],
+    return const Form(
+      // Add Form widget if you need form validation
+      child: Center(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.all(Spacing.s16),
+            child: AppCard(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  LoginHeader(),
+                  SizedBox(height: Spacing.s32),
+                  LoginEmailInput(),
+                  SizedBox(height: Spacing.s16),
+                  LoginButton(),
+                ],
+              ),
             ),
           ),
         ),
