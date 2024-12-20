@@ -1,6 +1,6 @@
 import 'package:amaravati_chamber/core/router/routes.dart';
 import 'package:amaravati_chamber/features/auth/presentation/bloc/auth_bloc.dart';
-import 'package:amaravati_chamber/features/home/presentation/home_page.dart';
+import 'package:amaravati_chamber/features/home/presentation/pages/home_page.dart';
 import 'package:amaravati_chamber/features/theme_mode/presentation/page/theme_mode__page.dart';
 import 'package:amaravati_chamber/features/user/presentation/page/change_email_address_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

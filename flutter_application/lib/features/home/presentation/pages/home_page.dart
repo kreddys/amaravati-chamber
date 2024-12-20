@@ -3,9 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:amaravati_chamber/dependency_injection.dart';
 import 'package:amaravati_chamber/features/home/presentation/bloc/bottom_navigation_bar/bottom_navigation_bar_cubit.dart';
 import 'package:amaravati_chamber/features/home/presentation/widgets/home_navigation_bar.dart';
-import '../../news/presentation/bloc/news_cubit.dart';
-import '../../../../core/logging/app_logger.dart';
-import '../../../../core/monitoring/sentry_monitoring.dart';
+import '../../../news/presentation/bloc/news_cubit.dart';
+import '../../../../../core/logging/app_logger.dart';
+import '../../../../../core/monitoring/sentry_monitoring.dart';
 import 'package:amaravati_chamber/features/settings/presentation/page/settings_page.dart';
 
 class HomePage extends StatelessWidget {
